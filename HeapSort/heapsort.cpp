@@ -1,9 +1,26 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 typedef unsigned long long Int;
 using namespace std;
 
-void heap(vector<Int>& v, Int n, Int i)
+
+void ReadArray(vector<long long> &arr, size_t &n, char *input_file)
+{
+	ifstream in(input_file);
+	in >> n;
+	arr.resize(n);
+
+	for (size_t i = 0; i < n; ++i)
+    {
+		in >> arr[i];
+	}
+
+	in.close();
+	return;
+}
+
+void heapify(vector<Int>& v, long long n, Int i)
 {
     Int Max= i;
     Int st = 2*i + 1;
@@ -17,32 +34,39 @@ void heap(vector<Int>& v, Int n, Int i)
     if(Max != i)
     {
         swap(v[i], v[Max]);
-        heap(v, n, Max);
+        heapify(v, n, Max);
     }
 }
 
-void heapSort(vector<Int>& v, Int n)
+void heapSort(vector<Int>& v, long long n)
 {
-    for(Int i = n/2 - 1; i>=0; i--)
-        heap(v, n, i);
+    for(long long i = n/2 - 1; i>=0; i--)
+        heapify(v, n, i);
 
-    for(Int i = n - 1; i>=0; i--)
+    for(long long i = n - 1; i>=0; i--)
     {
         swap(v[0], v[i]);
-        heap(v, i, 0);
+        heapify(v, i, 0);
     }
 }
 
-
-int main()
+void printArray(const vector<long long>& arr)
 {
-    int n;
-    cin>>n;
-    vector<Int> v(n);
-    for(int i=0; i<n; i++)
-        cin>>v[i];
-    heapSort(v,n);
-    for(int i=0; i<n; i++)
-        cout<<v[i]<<" ";
+    for (double x : arr)
+        cout << x << " ";
+    cout << endl;
+}
+
+
+int main(int argc, char *argv[])
+{
+	size_t n;
+	vector<long long> array;
+    ReadArray(array, n, argv[1]);
+    printArray(array);
+    heapSort(array, n);
+    cout << "Sorted array:\n";
+    printArray(array);
+
     return 0;
 }
