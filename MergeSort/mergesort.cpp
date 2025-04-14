@@ -1,7 +1,23 @@
 #include <iostream>
 #include <vector>
-
+#include <iostream>
 using namespace std;
+
+void ReadArray(vector<long long> &arr, size_t &n, char *input_file)
+{
+	ifstream in(input_file);
+
+	in >> n;
+	arr.resize(n);
+
+	for (size_t i = 0; i < n; ++i) 
+    {
+		in >> arr[i];
+	}
+
+	in.close();
+	return;
+}
 
 void Interclasare(vector<long long>& v, unsigned long long st, unsigned long long mij, unsigned long long dr)
 {
@@ -41,15 +57,22 @@ void MergeSort(vector<long long>& v, unsigned long long st, unsigned long long d
     }
 }
 
-int main()
+void printArray(const vector<long long>& arr) 
 {
-    int n;
-    cin>>n;
-    vector <long long> v(n);
-    for(int i=0; i<n; i++)
-        cin>>v[i];
-    MergeSort(v,0,n-1);
-    for(int i=0; i<n; i++)
-        cout<<v[i]<<" ";
+    for (double x : arr)
+        cout << x << " ";
+    cout << endl;
+}
+
+int main(int argc, char *argv[]) 
+{
+	size_t n;
+	vector<long long> array;
+    ReadArray(array, n, argv[1]);
+    printArray(array);
+    MergeSort(array, n);
+    cout << "Sorted array:\n";
+    printArray(array);
+
     return 0;
 }
